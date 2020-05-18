@@ -6,26 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            background-image: url(img/background.jpg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+
+        }
+
         #outContainer {
             width: 800px;
             height: 800px;
-            border: solid 1px;
             position: relative;
             margin: auto;
+
         }
 
-        #outContainer h1 {
+        #outContainer #title {
             width: 500px;
-            text-align: center;
-            margin: 40px auto;
+            height: 50px;
+            top: 40px;
+            left: 150px;
+            position: relative;
+
         }
 
         #container {
             width: 500px;
             height: 500px;
             border: solid 1px black;
-            margin: 40px auto;
+            margin: 80px auto;
             position: relative;
+            background-color: rgb(203, 255, 230);
+
         }
 
         #bricks div {
@@ -35,9 +54,9 @@
         }
 
         #ball {
-            width: 15px;
-            height: 15px;
-            background-color: rgb(175, 84, 211);
+            width: 20px;
+            height: 20px;
+            background: url(img/ball.png) no-repeat;
             border-radius: 50%;
             position: absolute;
             top: 180px;
@@ -45,41 +64,82 @@
         }
 
         #bat {
-            width: 80px;
-            height: 30px;
-            background-color: pink;
+            width: 100px;
+            height: 20px;
+            background: url(img/bat.png) no-repeat;
             position: absolute;
-            top: 470px;
-            left: 220px;
+            top: 480px;
+            left: 210px;
         }
 
-        button {
-            width: 50px;
-            height: 20px;
+        #startbtn {
+            width: 300px;
+            height: 90px;
             margin: 0px auto;
             position: absolute;
             top: 200px;
-            left: 220px;
-
+            left: 100px;
+            background: url(img/start.png) no-repeat;
+            border: none;
         }
 
-        #speedCtrl {
-            width: 50px;
-            height: 120px;
+
+        #sidebar {
+            width: 120px;
+            height: 500px;
             position: absolute;
-            top: 180px;
-            left: 50px;
+            top: 135px;
+            left: 13px;
+            background-color: rgb(191, 185, 255);
+            border: solid 1px;
+
+        }
+
+        #sidebar div {
+            width: 100px;
+            height: 30px;
+            margin: 10px auto;
+
+        }
+
+        #sidebar div img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #sidebar #buttons {
+            width: 60px;
+            height: 170px;
+
+        }
+
+        #sidebar #buttons button {
+            width: 50px;
+            height: 50px;
+            margin: 10px 5px;
 
 
         }
 
-        #speedCtrl button {
-            width: 45px;
-            height: 50px;
-            border: solid 1px;
-            margin: 5px;
-            line-height: 50px;
-            position: static;
+        #sidebar #buttons #speedUp {
+            background-image: url(img/up.png);
+        }
+
+        #sidebar #buttons #speedDown {
+            background-image: url(img/down.png);
+        }
+
+
+        #sidebar #score {
+            width: 100%;
+            height: 100%;
+
+        }
+
+        #sidebar p {
+            text-align: center;
+            margin: 10px 5px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -94,10 +154,11 @@
             var oBricks = document.getElementById("bricks");
             var brickArr = oBricks.childNodes;
             var flag = true;
-            var startbtn = createBtn();
+
             var upBtn = document.getElementById("speedUp");
             var downBtn = document.getElementById('speedDown');
             dragX(oBat);
+            createBtn();
 
             createBrick(20);
             upBtn.onclick = function () {
@@ -113,6 +174,7 @@
                 }
 
             }
+            var startbtn = document.getElementById("startbtn");
             downBtn.onclick = function () {
                 if (speedX >= 1) {
                     speedX -= 1;
@@ -171,9 +233,8 @@
 
         function createBtn() {
             var startbtn = document.createElement("button");
-            startbtn.innerHTML = 'start!';
             document.getElementById("container").appendChild(startbtn);
-            return startbtn;
+            startbtn.setAttribute('id', 'startbtn');
         }
         function dragX(node) {
             node.onmousedown = function (ev) {
@@ -188,8 +249,8 @@
                     //当前鼠标位置减去之前的距离差，获得node的位置
                     var l = e.clientX - offsetX
                     //防止出界
-                    if (l >= 420) {
-                        l = 420
+                    if (l >= 400) {
+                        l = 400
                     }
                     if (l <= 0) {
                         l = 0
@@ -246,15 +307,21 @@
 
     </script>
     <div id='outContainer'>
-        <h1>BRICK BREAKER!</h1>
+        <img id="title" src="img/title.png" alt="">
         <div id='container'>
             <div id='bricks'></div>
             <div id='ball'></div>
             <div id="bat"></div>
         </div>
-        <div id='speedCtrl'>
-            <button id='speedUp'>加速</button>
-            <button id='speedDown'>减速</button>
+        <div id='sidebar'>
+            <div><img src="img/speed.png" alt=""></div>
+            <div id="buttons">
+                <button id='speedUp'></button>
+                <button id='speedDown'></button>
+            </div>
+
+            <div><img src="img/score.png" alt="" id="score"></div>
+            <p>这儿还没写</p>
         </div>
 
     </div>
