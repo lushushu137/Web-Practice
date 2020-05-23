@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #container {
+            width: 300px;
+            height: 300px;
+            border: solid 1px;
+            margin: 100px auto;
+        }
+
+        .row {
+            list-style: none;
+        }
+
+        .row div {
+            width: 98px;
+            height: 98px;
+            float: left;
+            border: solid 1px;
+            position: relative;
+
+        }
+
+        .row div p {
+            width: 80%;
+            height: 80%;
+            border: solid 1px;
+            font-size: 50px;
+            text-align: center;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class='row'>
+            <div>
+            </div>
+            <div>
+                <p>8</p>
+            </div>
+            <div>
+                <p>4</p>
+            </div>
+        </div>
+        <div class='row'>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class='row'>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+
+    <script>
+        var oContainer = document.getElementById("container").children;
+        var rx = parseInt(Math.random() * 3);
+        var ry = parseInt(Math.random() * 3);
+        var vList = [2, 4];
+        var rv = vList[parseInt(Math.random() * 2)];
+        console.log(rx, ry, rv);
+        newNum();
+        getNotEmptyBlocks();
+
+        function getBlock(row, col) {
+            return oContainer[row].children[col]
+        }
+
+        function newNum() {
+            var found = false
+            while (!found) {
+                var block = getBlock(rx, ry);
+                if (block.children.length == 0) {
+                    var newNode = document.createElement("p");
+                    newNode.innerHTML = rv;
+                    block.appendChild(newNode);
+                    found = true;
+                    break
+                } else {
+                    rx = parseInt(Math.random() * 3);
+                    ry = parseInt(Math.random() * 3);
+                }
+            }
+        }
+
+        function getNotEmptyBlocks() {
+            var blockList = [];
+            for (var row = 0; row < oContainer.length; row++) {
+                for (var col = 0; col < oContainer.length; col++) {
+                    var ele = getBlock(row, col);
+                    if (ele.children.length != 0) {
+                        blockList += ele;
+                    }
+
+                }
+            }
+            console.log(blockList);
+            return blockList
+        }
+
+        // function goDown(){
+        //     var blockList = getNotEmptyBlocks();
+        //     for
+        // }
+    </script>
+</body>
+
+</html>
