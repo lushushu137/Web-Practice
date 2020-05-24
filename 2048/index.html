@@ -12,8 +12,8 @@
         }
 
         #container {
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             border: solid 1px;
             margin: 100px auto;
         }
@@ -47,21 +47,25 @@
 <body>
     <div id="container">
         <div class='row'>
-            <div>
-            </div>
-            <div>
-                <p>8</p>
-            </div>
-            <div>
-                <p>4</p>
-            </div>
-        </div>
-        <div class='row'>
+            <div></div>
             <div></div>
             <div></div>
             <div></div>
         </div>
         <div class='row'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class='row'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class='row'>
+            <div></div>
             <div></div>
             <div></div>
             <div></div>
@@ -71,54 +75,131 @@
 
     <script>
         var oContainer = document.getElementById("container").children;
-        var rx = parseInt(Math.random() * 3);
-        var ry = parseInt(Math.random() * 3);
-        var vList = [2, 4];
-        var rv = vList[parseInt(Math.random() * 2)];
-        console.log(rx, ry, rv);
-        newNum();
-        getNotEmptyBlocks();
 
-        function getBlock(row, col) {
-            return oContainer[row].children[col]
+        console.log(oContainer.length)
+        window.onload = function () {
+            newNum();
+            newNum();
+            var blockList = getNotEmptyBlocks();
+            console.log(getXY(blockList[0]));
+            console.log(getXY(blockList[1]));
+
+            document.onkeydown = function (ev) {
+                var e = ev || window.event;
+                var keyValue = e.keyCode;
+                if (keyValue == 40) {
+                    alert('你按了下键');
+                }
+                if (keyValue == 37) {
+                    alert('你按了左键');
+                }
+                if (keyValue == 39) {
+                    alert('你按了右键');
+                }
+                if (keyValue == 38) {
+                    goUp();
+                    newNum();
+                }
+            }
         }
 
+
+        function getBlock(row, col) {
+            return oContainer[row].children[col];
+        }
+        function getXY(obj) {
+            for (var row = 0; row < 4; row++) {
+                for (var col = 0; col < 4; col++) {
+                    var temp = oContainer[row].children[col];
+                    XY = []
+                    if (temp == obj) {
+                        XY.push(row, col);
+                        return XY;
+                    }
+                }
+            }
+        }
         function newNum() {
+            var rx = parseInt(Math.random() * 4);
+            var ry = parseInt(Math.random() * 4);
+            var vList = [2, 4];
+            var rv = vList[parseInt(Math.random() * 2)];
             var found = false
             while (!found) {
                 var block = getBlock(rx, ry);
-                if (block.children.length == 0) {
+                if (!block.hasChildNodes()) {
                     var newNode = document.createElement("p");
                     newNode.innerHTML = rv;
                     block.appendChild(newNode);
                     found = true;
-                    break
                 } else {
-                    rx = parseInt(Math.random() * 3);
-                    ry = parseInt(Math.random() * 3);
+                    rx = parseInt(Math.random() * 4);
+                    ry = parseInt(Math.random() * 4);
                 }
             }
         }
 
         function getNotEmptyBlocks() {
             var blockList = [];
-            for (var row = 0; row < oContainer.length; row++) {
-                for (var col = 0; col < oContainer.length; col++) {
+            for (var row = 0; row < 4; row++) {
+                for (var col = 0; col < 4; col++) {
                     var ele = getBlock(row, col);
-                    if (ele.children.length != 0) {
-                        blockList += ele;
+                    if (ele.hasChildNodes()) {
+                        // alert('子节点的种类' + ele.firstChild)
+                        blockList.push(ele);
                     }
 
                 }
             }
-            console.log(blockList);
-            return blockList
+            return blockList;
         }
 
-        // function goDown(){
-        //     var blockList = getNotEmptyBlocks();
-        //     for
-        // }
+        function goUp() {
+            var allBlocks = getNotEmptyBlocks();
+            for (block in allBlocks) {
+                var XY = getXY(allBlocks[block]);
+                console.log('当前元素的坐标', XY)
+                var stop = false;
+                // alert('当前block的第一个子节点' + allBlocks[block].firstChild)
+                if (XY[0] == 0) {
+                    console.log('不动');
+                } else {
+                    var nextBlock = getBlock(XY[0] - 1, XY[1]);
+                    while (!stop) {
+                        if (!nextBlock.hasChildNodes()) {
+                            if (getXY(nextBlock)[0] == 0) {
+                                console.log("移动到", getXY(nextBlock))
+                                move(allBlocks[block], nextBlock);
+                                stop = true;
+                            } else {
+                                nextBlock = getBlock(getXY(nextBlock)[0] - 1, getXY(nextBlock)[1]);
+                            }
+                        } else {
+                            var lastBlock = getBlock(getXY(nextBlock)[0] + 1, getXY(nextBlock)[1]);
+                            if (lastBlock != allBlocks[block]) {
+                                console.log("移动到", getXY(lastBlock))
+                                move(allBlocks[block], lastBlock);
+                            }
+                            stop = true;
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+        function move(from, to) {
+            // alert('要删除的子节点是' + from.firstChild)
+
+            to.appendChild(from.firstElementChild);
+            from.innerHTML = '';
+
+            // alert('添加的子节点是' + to.firstElementChild)
+            // from.removeChild(from.firstChild);
+
+        }
+
     </script>
 </body>
 
