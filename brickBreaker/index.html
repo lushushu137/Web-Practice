@@ -8,10 +8,9 @@
     <style>
         body {
             background-image: url(img/background.jpg);
-            background-size: 100% 100%;
             background-repeat: no-repeat;
-            background-attachment: fixed;
-
+            background-size: cover;
+            background-position: center;
         }
 
         * {
@@ -21,11 +20,12 @@
         }
 
         #outContainer {
-            width: 800px;
-            height: 800px;
+            width: 100vw;
+            height: 100vh;
             position: relative;
-            margin: auto;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #outContainer #title {
@@ -41,16 +41,19 @@
             width: 500px;
             height: 500px;
             border: solid 1px black;
-            margin: 80px auto;
             position: relative;
-            background-color: rgb(203, 255, 230);
-
+            margin-right: 120px;
+            background-color: rgba(255,255,255,0.3);
         }
-
         #bricks div {
-            width: 100px;
+            width: 110px;
             float: left;
             height: 30px;
+            /* background-color: cadetblue; */
+            background-color: lightpink;
+            border-radius: 5%;
+            margin: 5px;
+
         }
 
         #ball {
@@ -87,12 +90,10 @@
         #sidebar {
             width: 120px;
             height: 500px;
-            position: absolute;
-            top: 135px;
-            left: 13px;
-            background-color: rgb(191, 185, 255);
+            background-color: rgba(255,255,255,0.3);
             border: solid 1px;
-
+            margin-right: 10px;
+            border-radius: 20px;
         }
 
         #sidebar div {
@@ -162,7 +163,7 @@
 
             createBrick(20);
             upBtn.onclick = function () {
-                document.getElementById("scores").innerHTML = "加速！此时应该分数X2";
+                // document.getElementById("scores").innerHTML = "加速！此时应该分数X2";
                 if (speedX > 0) {
                     speedX += 1;
                 } else {
@@ -178,7 +179,7 @@
             var startbtn = document.getElementById("startbtn");
 
             downBtn.onclick = function () {
-                document.getElementById("scores").innerHTML = "减速！此时应该分数//2";
+                // document.getElementById("scores").innerHTML = "减速！此时应该分数//2";
                 if (speedX >= 1) {
                     speedX -= 1;
                 }
@@ -284,18 +285,16 @@
                 return true;
             }
         }
-        function randomColor() {
-            var colorList = ['rgb(115, 151, 171)', 'rgb(136, 173, 166)', 'rgb(212, 242, 231)', 'rgb(211, 224, 243)', 'rgb(242, 236, 222)', 'rgb(238,222,176)', 'rgb(117,138,153)', 'rgb(164,226,198)'];
-
-            return colorList[parseInt(Math.random() * colorList.length)];
+        function getColor(index){
+            var colorList = ['#8986fa','#9c8ffb','#af97fd','#c2a0fe','#d5a8ff']
+            return colorList[parseInt(index / 4)]
         }
         function createBrick(n) {
             var oBrick = document.getElementById("bricks");
             var brickArr = document.getElementById("bricks").childNodes;
             for (var i = 0; i < n; i++) {
                 var node = document.createElement("div");
-                node.style.backgroundColor = randomColor();
-                node.style.borderRadius = '5%';
+                node.style.backgroundColor = getColor(i)
                 oBrick.appendChild(node);
             }
 
@@ -310,12 +309,7 @@
 
     </script>
     <div id='outContainer'>
-        <img id="title" src="img/title.png" alt="">
-        <div id='container'>
-            <div id='bricks'></div>
-            <div id='ball'></div>
-            <div id="bat"></div>
-        </div>
+        <!-- <img id="title" src="img/title.png" alt=""> -->
         <div id='sidebar'>
             <div><img src="img/speed.png" alt=""></div>
             <div id="buttons">
@@ -323,9 +317,15 @@
                 <button id='speedDown'></button>
             </div>
 
-            <div><img src="img/score.png" alt="" id="score"></div>
-            <p id="scores">这儿还没写</p>
+            <!-- <div><img src="img/score.png" alt="" id="score"></div>
+            <p id="scores">这儿还没写</p> -->
         </div>
+        <div id='container'>
+            <div id='bricks'></div>
+            <div id='ball'></div>
+            <div id="bat"></div>
+        </div>
+        
 
     </div>
 
